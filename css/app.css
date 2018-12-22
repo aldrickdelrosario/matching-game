@@ -1,0 +1,174 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+h1 {
+    font-size: 36px;
+    line-height: 42px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/*
+ * Styles for the deck of cards
+ */
+
+.deck {
+    width: 660px;
+    min-height: 680px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 3em;
+}
+
+.deck .card {
+    height: 125px;
+    width: 125px;
+    background: #2e3d49;
+    font-size: 0;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.85);
+    transition: .5s all;
+}
+
+.deck .card.open {
+    transform: rotateY(0);
+    background: #02b3e4;
+    cursor: default;
+    pointer-events: none;
+}
+
+.deck .card.show {
+    font-size: 33px;
+}
+
+.deck .card.match {
+    cursor: default;
+    background: #02ccba;
+    font-size: 33px;
+}
+
+/*
+ * Styles for the Score Panel
+ */
+
+.score-panel {
+    text-align: left;
+    width: 345px;
+    margin-bottom: 10px;
+}
+
+.score-panel .stars {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin: 0 10px 0 0;
+}
+
+.score-panel .stars .hide {
+    display: none !important;
+}
+
+.score-panel .stars li {
+    list-style: none;
+    display: inline-block;
+}
+
+.score-panel .timer {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.score-panel .restart {
+    float: right;
+    cursor: pointer;
+}
+
+/*
+ * Styles for the Win Overlay
+ */
+
+.overlay {
+    background: rgba(0, 0, 0, .5);
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+}
+
+.overlay.show {
+    display: block !important;
+}
+
+.overlay.hide {
+    display: none !important;
+}
+
+.overlay .content {
+    background: #ffffff url('../img/geometry2.png');
+    border-radius: 12px;
+    font-size: 26px;
+    margin: auto;
+    margin-top: 5%;
+    padding: 25px 15px 50px 15px;
+    text-align: center;
+    width: 90%;
+}
+
+.overlay .play-again {
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    border: none;
+    border-radius: 8px;
+    color: #2e3d49;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 24px;
+    font-weight: bold;
+    outline: none;
+    margin: 10px auto;
+    padding: 12px 24px;
+    transition: .5s all;
+}
+
+.overlay .play-again:hover {
+    background: linear-gradient(160deg, #aa7ecd 0%, #02ccba 100%);
+    color: #fff;
+}
