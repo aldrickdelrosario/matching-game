@@ -117,7 +117,7 @@ function timer() {
 			hours = 0;
 			timerReset = false;
 		}
-		document.getElementById('timer').innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+		document.getElementById('timer').innerHTML = hours + "h " + minutes + "m " + seconds + "s";
 	}, 1000);
 }
 
@@ -137,6 +137,16 @@ function resetCardCompareValues() {
 	count = 0;
 	cardOne = null;
 	cardTwo = null;
+}
+
+/*
+ * Move counter: track and display number of moves
+ */
+
+function incrementMoveCounter() {
+	var moveCounterId = document.getElementById('moves');
+	moveCounter++;
+	moves.innerHTML = moveCounter;
 }
 
 /*
@@ -164,16 +174,6 @@ function cardNotMatched() {
 	});
 	incrementMoveCounter();
 	resetCardCompareValues();
-}
-
-/*
- * Move counter: track and display number of moves
- */
-
-function incrementMoveCounter() {
-	var moveCounterId = document.getElementById('moves');
-	moveCounter++;
-	moves.innerHTML = moveCounter;
 }
 
 /*
@@ -213,7 +213,7 @@ function win() {
 	timer();
 
 	overlay.classList.add('show');
-	overlayContent.innerHTML = "<h1>Congratulations!</h1><p>Match game completed in: " + time  + ".</p><p>You receive a " + rating + "-star rating.</p><button id='play-again' class='play-again' onclick='restartGame()'>Play Again</button>";
+	overlayContent.innerHTML = "<h1>Congratulations!</h1><p>Match game completed in: <span style='white-space: nowrap;'>" + time  + "</span>.</p><p>You receive a " + rating + "-star rating.</p><button id='play-again' class='play-again' onclick='restartGame()'>Play Again</button>";
 }
 
 /*
