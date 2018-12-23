@@ -172,3 +172,30 @@ h1 {
     background: linear-gradient(160deg, #aa7ecd 0%, #02ccba 100%);
     color: #fff;
 }
+
+/*
+ * Media Queries
+ */
+
+@media screen and (max-width: 699px) {
+    .deck {
+        box-shadow: none;
+        margin: 15px 5% 60px 5%;
+        min-height: 400px;
+        padding: 32px 16px;
+        width: 90%;
+    }
+
+    .deck .card {
+        margin: 15px 2.5%;
+        width: 20%;
+        height: 50px;
+    }
+}
+
+@media screen and (max-width: 359px) {
+    .score-panel {
+        padding: 0 2.5%;
+        width: 90%;
+    }
+}
