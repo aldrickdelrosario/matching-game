@@ -250,20 +250,23 @@ function compareCards(card) {
 
 function startGame() {
 	let cardList = document.querySelectorAll('.card');
+	let timerTrigger = 0;
 
 	cardList.forEach(card => {
 		card.addEventListener('click', e => {
 			let clicked = e.target;
-
 			compareCards(clicked);
+
+			if(timerTrigger < 1) {
+				timer();
+				timerTrigger++;
+				console.log('timerTrigger: ' + timerTrigger);
+			}
 		});
 	});
-
-	timer();
 }
 
 startGame();
-// win();
 
 /*
  * Restart game by setting values to default
@@ -283,6 +286,9 @@ function restartGame() {
 	var moveCounterId = document.getElementById('moves');
 	values.moveCounter = 0;
 	moveCounterId.innerHTML = values.moveCounter;
+
+	var time = document.getElementById("timer");
+	time.innerHTML = "0h 0m 0s";
 
 	var cards = document.querySelectorAll('.card');
 	cards.forEach(card => {
