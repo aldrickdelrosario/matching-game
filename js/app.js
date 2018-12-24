@@ -260,7 +260,6 @@ function startGame() {
 			if(timerTrigger < 1) {
 				timer();
 				timerTrigger++;
-				console.log('timerTrigger: ' + timerTrigger);
 			}
 		});
 	});
