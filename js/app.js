@@ -184,10 +184,10 @@ function gameRating(count) {
 		return;
 	} else if (values.moveCounter < 15) {
 		stars.children[0].classList.add('hide');
-		rating = 2;
+		values.rating = 2;
 	} else {
 		stars.children[1].classList.add('hide');
-		rating = 1;
+		values.rating = 1;
 	}
 }
 
