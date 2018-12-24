@@ -76,16 +76,14 @@ createDeck();
  * Initial variables/values
  */
 
-let cardList = document.querySelectorAll('.card');
-let count = 0;
-let cardOne = null;
-let cardTwo = null;
-let matchCounter = 0;
-let moveCounter = 0;
-let rating = 3;
-let timerReset = false;
-let timerStop = false;
-let winCounter = 0;
+let values = {
+	count: 0,
+	cardOne: null,
+	cardTwo: null,
+	moveCounter: 0,
+	rating: 3,
+	winCounter: 0,
+};
 
 /*
  * Game timer
@@ -95,30 +93,27 @@ function timer() {
 	let seconds = 0;
 	let minutes = 0;
 	let hours = 0;
-	let clock = setInterval(function() {
-		if(timerReset === false) {
-			if (timerStop === false) {
-				seconds++;
-				if(seconds === 60) {
-					minutes++;
-					seconds = 0;
-				}
-				if(minutes == 60) {
-					hours++;
-					seconds = 0;
-					minutes = 0;
-				}
-			} else {
-				clearInterval(clock);		// stop clock after win condition is met
-			}
-		} else {
+	timer.clock = setInterval(function() {
+		seconds++;
+		if(seconds === 60) {
+			minutes++;
+			seconds = 0;
+		}
+		if(minutes === 60) {
+			hours++;
 			seconds = 0;
 			minutes = 0;
-			hours = 0;
-			timerReset = false;
 		}
 		document.getElementById('timer').innerHTML = hours + "h " + minutes + "m " + seconds + "s";
 	}, 1000);
+}
+
+/*
+ * Resets/stops game timer
+ */
+
+function timerReset() {
+	clearInterval(timer.clock);
 }
 
 /*
@@ -134,9 +129,9 @@ function cardShow(cardToShow) {
  */
 
 function resetCardCompareValues() {
-	count = 0;
-	cardOne = null;
-	cardTwo = null;
+	values.count = 0;
+	values.cardOne = null;
+	values.cardTwo = null;
 }
 
 /*
@@ -145,8 +140,8 @@ function resetCardCompareValues() {
 
 function incrementMoveCounter() {
 	var moveCounterId = document.getElementById('moves');
-	moveCounter++;
-	moves.innerHTML = moveCounter;
+	values.moveCounter++;
+	moveCounterId.innerHTML = values.moveCounter;
 }
 
 /*
@@ -185,9 +180,9 @@ function cardNotMatched() {
 
 function gameRating(count) {
 	var stars = document.getElementById('stars');
-	if(count < 12 || count > 16) {
+	if(values.moveCounter < 12 || values.moveCounter > 16) {
 		return;
-	} else if (count < 15) {
+	} else if (values.moveCounter < 15) {
 		stars.children[0].classList.add('hide');
 		rating = 2;
 	} else {
@@ -209,11 +204,10 @@ function win() {
 		time = "0h 0m 0s";
 	}
 
-	timerStop = true;
-	timer();
+	timerReset();
 
 	overlay.classList.add('show');
-	overlayContent.innerHTML = "<h1>Congratulations!</h1><p>Match game completed in: <span style='white-space: nowrap;'>" + time  + "</span>.</p><p>You receive a " + rating + "-star rating.</p><button id='play-again' class='play-again' onclick='restartGame()'>Play Again</button>";
+	overlayContent.innerHTML = "<h1>Congratulations!</h1><p>Match game completed in: <span style='white-space: nowrap;'>" + time  + "</span>.</p><p>You receive a " + values.rating + "-star rating.</p><button id='play-again' class='play-again' onclick='restartGame()'>Play Again</button>";
 }
 
 /*
@@ -226,24 +220,24 @@ function win() {
  */
 
 function compareCards(card) {
-	if(count < 2) {
-		count++;
+	if(values.count < 2) {
+		values.count++;
 		cardShow(card);
-		if(cardOne === null) {
-			cardOne = card.dataset.icon;
+		if(values.cardOne === null) {
+			values.cardOne = card.dataset.icon;
 		} else {
-			cardTwo = card.dataset.icon;
+			values.cardTwo = card.dataset.icon;
 		}
 
-		if(cardOne != null && cardTwo != null) {
-			if(cardOne === cardTwo) {
-				winCounter++;
+		if(values.cardOne != null && values.cardTwo != null) {
+			if(values.cardOne === values.cardTwo) {
+				values.winCounter++;
 				cardMatched();
-				if(winCounter == 8) {
+				if(values.winCounter == 8) {
 					win();
 				}
 			} else {
-				gameRating(moveCounter);
+				gameRating(values.moveCounter);
 				setTimeout(cardNotMatched, 850);
 			}
 		}
@@ -255,38 +249,40 @@ function compareCards(card) {
  */
 
 function startGame() {
+	let cardList = document.querySelectorAll('.card');
+
 	cardList.forEach(card => {
-		card.addEventListener('click', function(e) {
+		card.addEventListener('click', e => {
 			let clicked = e.target;
 
 			compareCards(clicked);
 		});
 	});
+
 	timer();
 }
 
 startGame();
+// win();
 
 /*
  * Restart game by setting values to default
  */
 
 function restartGame() {
-	count = 0;
-	cardOne = null;
-	cardTwo = null;
-	matchCounter = 0;
-	moveCounter = 0;
-	rating = 3;
-	timerReset = true;
-	timerStop = false;
-	winCounter = 0;
+	const deck = document.getElementById('deck');
+	deck.innerHTML = '';
 
-	timer();
+	resetCardCompareValues();
+	timerReset();
+
+	values.moveCounter = 0;
+	values.rating = 3;
+	values.winCounter = 0;
 
 	var moveCounterId = document.getElementById('moves');
-	moveCounter = 0;
-	moves.innerHTML = moveCounter;
+	values.moveCounter = 0;
+	moveCounterId.innerHTML = values.moveCounter;
 
 	var cards = document.querySelectorAll('.card');
 	cards.forEach(card => {
@@ -297,6 +293,11 @@ function restartGame() {
 	stars.children[0].classList.remove('hide');
 	stars.children[1].classList.remove('hide');
 
-	var overlay = document.getElementById('overlay');
-	overlay.classList.remove('show');
+	if(document.getElementById('overlay') != null) {
+		var overlay = document.getElementById('overlay');
+		overlay.classList.remove('show');
+	}
+
+	createDeck();
+	startGame();
 }
